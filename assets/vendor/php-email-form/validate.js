@@ -4,12 +4,16 @@ document.addEventListener("DOMContentLoaded", function() {
   form.addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    const formData = new FormData(form);
-    const formObject = {};
-
-    formData.forEach((value, key) => formObject[key] = value);
+    // Create an object to hold the form data
+    const formObject = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      subject: document.getElementById("subject").value,
+      message: document.querySelector("textarea[name='message']").value,
+    };
 
     try {
+      // Send the POST request to the PHP script
       const response = await fetch('forms/contact.php', {
         method: 'POST',
         headers: {
@@ -18,8 +22,10 @@ document.addEventListener("DOMContentLoaded", function() {
         body: JSON.stringify(formObject)
       });
 
+      // Parse the JSON response from the PHP script
       const data = await response.json();
 
+      // Check the status field in the response
       if (data.status === 'success') {
         alert('Message sent successfully');
       } else {
