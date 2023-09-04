@@ -1,85 +1,52 @@
-/**
-* PHP Email Form Validation - v3.6
-* URL: https://bootstrapmade.com/php-email-form/
-* Author: BootstrapMade.com
-*/
-(function () {
-  "use strict";
+// Wait for the DOM to be fully loaded
+document.addEventListener("DOMContentLoaded", function() {
+  // Get the form element
+  const form = document.querySelector(".php-email-form");
 
-  let forms = document.querySelectorAll('.php-email-form');
+  // Attach the submit event listener to the form
+  form.addEventListener("submit", function(event) {
+    // Prevent the default form submission
+    event.preventDefault();
 
-  forms.forEach( function(e) {
-    e.addEventListener('submit', function(event) {
-      event.preventDefault();
+    // Form validation logic
+    let isValid = true;
 
-      let thisForm = this;
+    // Get the input elements
+    const name = document.getElementById("name");
+    const email = document.getElementById("email");
+    const subject = document.getElementById("subject");
+    const message = document.querySelector("textarea[name='message']");
 
-      let action = thisForm.getAttribute('action');
-      let recaptcha = thisForm.getAttribute('data-recaptcha-site-key');
-      
-      if( ! action ) {
-        displayError(thisForm, 'The form action property is not set!');
-        return;
-      }
-      thisForm.querySelector('.loading').classList.add('d-block');
-      thisForm.querySelector('.error-message').classList.remove('d-block');
-      thisForm.querySelector('.sent-message').classList.remove('d-block');
+    // Get the error-message element
+    const errorMessage = document.querySelector(".error-message");
 
-      let formData = new FormData( thisForm );
+    // Validation rules
+    if (!name.value.trim()) {
+      isValid = false;
+      errorMessage.innerHTML = "Name is required.";
+    } else if (!email.value.trim()) {
+      isValid = false;
+      errorMessage.innerHTML = "Email is required.";
+    } else if (!validateEmail(email.value)) {
+      isValid = false;
+      errorMessage.innerHTML = "Enter a valid email address.";
+    } else if (!subject.value.trim()) {
+      isValid = false;
+      errorMessage.innerHTML = "Subject is required.";
+    } else if (!message.value.trim()) {
+      isValid = false;
+      errorMessage.innerHTML = "Message is required.";
+    }
 
-      if ( recaptcha ) {
-        if(typeof grecaptcha !== "undefined" ) {
-          grecaptcha.ready(function() {
-            try {
-              grecaptcha.execute(recaptcha, {action: 'php_email_form_submit'})
-              .then(token => {
-                formData.set('recaptcha-response', token);
-                php_email_form_submit(thisForm, action, formData);
-              })
-            } catch(error) {
-              displayError(thisForm, error);
-            }
-          });
-        } else {
-          displayError(thisForm, 'The reCaptcha javascript API url is not loaded!')
-        }
-      } else {
-        php_email_form_submit(thisForm, action, formData);
-      }
-    });
+    // If the form is valid, submit it
+    if (isValid) {
+      form.submit();
+    }
   });
 
-  function php_email_form_submit(thisForm, action, formData) {
-    fetch(action, {
-      method: 'POST',
-      body: formData,
-      headers: {'X-Requested-With': 'XMLHttpRequest'}
-    })
-    .then(response => {
-      if( response.ok ) {
-        return response.text();
-      } else {
-        throw new Error(`${response.status} ${response.statusText} ${response.url}`); 
-      }
-    })
-    .then(data => {
-      thisForm.querySelector('.loading').classList.remove('d-block');
-      if (data.trim() == 'OK') {
-        thisForm.querySelector('.sent-message').classList.add('d-block');
-        thisForm.reset(); 
-      } else {
-        throw new Error(data ? data : 'Form submission failed and no error message returned from: ' + action); 
-      }
-    })
-    .catch((error) => {
-      displayError(thisForm, error);
-    });
+  // Helper function to validate email address
+  function validateEmail(email) {
+    const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
   }
-
-  function displayError(thisForm, error) {
-    thisForm.querySelector('.loading').classList.remove('d-block');
-    thisForm.querySelector('.error-message').innerHTML = error;
-    thisForm.querySelector('.error-message').classList.add('d-block');
-  }
-
-})();
+});
