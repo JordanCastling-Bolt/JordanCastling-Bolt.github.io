@@ -1,28 +1,25 @@
 <?php
-  // Simple form validation: check if all required fields are present
-  if (isset($_POST['name']) && isset($_POST['email']) && isset($_POST['subject']) && isset($_POST['message'])) {
+$data = json_decode(file_get_contents('php://input'), true);
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (isset($data['name']) && isset($data['email']) && isset($data['subject']) && isset($data['message'])) {
     
-    // Sanitize the input to avoid XSS and other potential issues
-    $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $subject = filter_var($_POST['subject'], FILTER_SANITIZE_STRING);
-    $message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
-    
-    // Set up receiving email address (replace this with your own)
+    $name = filter_var($data['name'], FILTER_SANITIZE_STRING);
+    $email = filter_var($data['email'], FILTER_SANITIZE_EMAIL);
+    $subject = filter_var($data['subject'], FILTER_SANITIZE_STRING);
+    $message = filter_var($data['message'], FILTER_SANITIZE_STRING);
+
     $to = 'jordancastlingbolt@gmail.com';
     $headers = "From: {$email}\r\n" .
                "Reply-To: {$email}\r\n" .
                'X-Mailer: PHP/' . phpversion();
 
-    // Send the email
-    $result = mail($to, $subject, $message, $headers);
-    
-    if ($result) {
-      echo "Your message has been sent. Thank you!";
+    if (mail($to, $subject, $message, $headers)) {
+      echo json_encode(['status' => 'success']);
     } else {
-      echo "Failed to send message.";
+      echo json_encode(['status' => 'fail']);
     }
   } else {
-    echo "Please fill in all required fields.";
+    echo json_encode(['status' => 'error']);
   }
-?>
+}
