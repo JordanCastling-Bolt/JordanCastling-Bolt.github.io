@@ -631,20 +631,20 @@ section {
 /*--------------------------------------------------------------
 # Portfolio Details
 --------------------------------------------------------------*/
-.portfolio-details {
+.portfolio-details_desktop {
   padding-top: 40px;
 }
 
-.portfolio-details .portfolio-details-slider img {
+.portfolio-details_desktop .portfolio-details-slider img {
   width: 100%;
 }
 
-.portfolio-details .portfolio-details-slider .swiper-pagination {
+.portfolio-details_desktop .portfolio-details-slider .swiper-pagination {
   margin-top: 20px;
   position: relative;
 }
 
-.portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet {
+.portfolio-details_desktop .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet {
   width: 12px;
   height: 12px;
   background-color: #fff;
@@ -652,16 +652,16 @@ section {
   border: 1px solid #149ddd;
 }
 
-.portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
+.portfolio-details_desktop .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
   background-color: #149ddd;
 }
 
-.portfolio-details .portfolio-info {
+.portfolio-details_desktop .portfolio-info {
   padding: 30px;
   box-shadow: 0px 0 30px rgba(5, 13, 24, 0.08);
 }
 
-.portfolio-details .portfolio-info h3 {
+.portfolio-details_desktop .portfolio-info h3 {
   font-size: 22px;
   font-weight: 700;
   margin-bottom: 20px;
@@ -669,27 +669,27 @@ section {
   border-bottom: 1px solid #eee;
 }
 
-.portfolio-details .portfolio-info ul {
+.portfolio-details_desktop .portfolio-info ul {
   list-style: none;
   padding: 0;
   font-size: 15px;
 }
 
-.portfolio-details .portfolio-info ul li+li {
+.portfolio-details_desktop .portfolio-info ul li+li {
   margin-top: 10px;
 }
 
-.portfolio-details .portfolio-description {
+.portfolio-details_desktop .portfolio-description {
   padding-top: 30px;
 }
 
-.portfolio-details .portfolio-description h2 {
+.portfolio-details_desktop .portfolio-description h2 {
   font-size: 26px;
   font-weight: 700;
   margin-bottom: 20px;
 }
 
-.portfolio-details .portfolio-description p {
+.portfolio-details_desktop .portfolio-description p {
   padding: 0;
 }
 
