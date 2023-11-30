@@ -566,6 +566,15 @@ section {
   margin-right: 0;
 }
 
+.portfolio .portfolio-wrap img {
+  max-width: 100%; /* Maximum width of 100% of its container */
+  max-height: 200px; /* Maximum height */
+  width: auto; /* Width adjusts automatically */
+  height: auto; /* Height adjusts automatically */
+  object-fit: cover; /* This will cover the area, may clip the image */
+  /* For no clipping, use 'contain' instead of 'cover' */
+}
+
 .portfolio .portfolio-wrap {
   transition: 0.3s;
   position: relative;
